@@ -1,19 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+@import "./normalize.scss";
+
+$borderColor: #eeeeee;
+$bgColor: #f5f5f5;
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.wrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: $bgColor;
+  border: 3px solid $borderColor;
+  border-radius: 3px;
+  margin-right: 10px;
+
+  &:hover {
+    background-color: $borderColor;
+  }
+
+  &:active {
+    background-color: #fff;
+  }
+}
+
 .main {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-top: 30px;
+  margin-bottom: 50px;
+  min-height: 435px;
 }
 
 .playing-field {
-  width: 33.3%;
-  text-align: center;
+  width: 40%;
 
   &__list {
     display: flex;
     flex-wrap: wrap;
-    font-size: 40px;
+    padding: 10px;
+    background-color: $bgColor;
+    border: 5px solid $borderColor;
+    border-radius: 5px;
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  &__item {
+    width: 20%;
+    font-size: 45px;
+    text-align: center;
+    margin: 10px 0;
   }
 }
 
-.result-text{
-  text-align: center;
+.player {
+  width: 25%;
+
+  &__title {
+    margin-bottom: 25px;
+  }
+
+  &__count {
+    margin-bottom: 25px;
+  }
+
+  &__button-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__button {
+    margin-bottom: 10px;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  &__player-first {
+    width: 25%;
+  }
+
+  &__result-text {
+    width: 50%;
+    text-align: center;
+  }
+
+  &__form {
+    width: 25%;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__form-title {
+    margin-bottom: 10px;
+  }
+}
+
+.player-first {
+  &__title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  &__name {
+    font-weight: 500;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 5px;
+  height: 135px;
+
+  &__input {
+    background-color: $bgColor;
+    border: 1px solid $borderColor;
+    padding: 5px 5px;
+    border-radius: 3px;
+  }
+
+  &__button {
+    width: max-content;
+  }
 }

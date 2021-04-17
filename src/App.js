@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import PlayingField from "./components/PlayingField";
-import Player from "./components/Player";
-import Enemy from "./components/Enemy";
+import { Main, Footer } from "./components/";
 
 function App() {
   const [totalCount, setTotalCount] = useState(25);
@@ -11,23 +9,29 @@ function App() {
   const [playerTurn, setPlayerTurn] = useState(true);
   const [playerWin, setPlayerWin] = useState(false);
   const [endGame, setEndGame] = useState(false);
+  const [playerFirst, setPlayerFirst] = useState(true);
+  const [maxTotal, setMaxTotal] = useState(25);
+  const [maxTake, setMaxTake] = useState(3);
 
   useEffect(() => {
-    console.log(`Осталось ${totalCount} спичек`);
-    if (totalCount === 0) {
-      if (playerCount % 2 === 0) {
-        setPlayerWin(true);
-      } else {
-        setPlayerWin(false);
-      }
-
-      console.log(playerWin);
-
-      reset();
-    } else if (totalCount < 0) {
-      console.log(`Ошибка, количество спичек ${totalCount}`);
+    if (totalCount <= 0) {
+      setTotalCount(maxTotal);
+      setPlayerCount(0);
+      setEnemyCount(0);
+      setPlayerWin(playerCount % 2 === 0);
+      setEndGame(true);
     }
   }, [totalCount]);
+
+  useEffect(() => {
+    setPlayerTurn(playerFirst);
+  }, [endGame]);
+
+  useEffect(() => {
+    if (totalCount === maxTotal) {
+      setPlayerTurn(playerFirst);
+    }
+  }, [playerFirst]);
 
   const changeTurn = (value) => {
     setTotalCount(totalCount - value);
@@ -37,43 +41,38 @@ function App() {
       : setEnemyCount(enemyCount + value);
 
     setPlayerTurn(!playerTurn);
-    setEndGame(false);
   };
 
-  const reset = () => {
-    setTotalCount(25);
-    setPlayerCount(0);
-    setEnemyCount(0);
-    setPlayerTurn(true);
-    setEndGame(true);
+  const submitInput = (maxTotalInput, maxTakeInput) => {
+    if (endGame || totalCount === maxTotal) {
+      setMaxTotal(maxTotalInput);
+      setTotalCount(maxTotalInput);
+      setMaxTake(maxTakeInput);
+      setPlayerCount(0);
+      setEnemyCount(0);
+    }
   };
 
   return (
-    <>
-      <div className="main">
-        <Player
-          count={playerCount}
-          changeTurn={changeTurn}
-          playerTurn={playerTurn}
-          totalCount={totalCount}
-        />
+    <div className="wrapper">
+      <Main
+        playerCount={playerCount}
+        enemyCount={enemyCount}
+        changeTurn={changeTurn}
+        totalCount={totalCount}
+        setEndGame={setEndGame}
+        playerTurn={playerTurn}
+        maxTake={maxTake}
+      />
 
-        <PlayingField totalCount={totalCount} />
-
-        <Enemy
-          count={enemyCount}
-          changeTurn={changeTurn}
-          playerTurn={playerTurn}
-          totalCount={totalCount}
-        />
-      </div>
-
-      {endGame && (
-        <h2 className="result-text">
-          Вы {playerWin ? "победили" : "проиграли"}
-        </h2>
-      )}
-    </>
+      <Footer
+        setPlayerFirst={setPlayerFirst}
+        playerFirst={playerFirst}
+        submitInput={submitInput}
+        playerWin={playerWin}
+        endGame={endGame}
+      />
+    </div>
   );
 }
 

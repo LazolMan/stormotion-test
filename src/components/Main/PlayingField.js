@@ -13,7 +13,9 @@ export default function PlayingField({ totalCount }) {
 
   return (
     <div className="playing-field">
-      <h2 className="playing-field__title">Количество спичек: {totalCount}</h2>
+      <h2 className="playing-field__title title">
+        Количество спичек: {totalCount}
+      </h2>
 
       <div className="playing-field__list">{items}</div>
     </div>
