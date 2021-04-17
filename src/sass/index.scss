@@ -1,0 +1,19 @@
+.main {
+  display: flex;
+  justify-content: space-around;
+}
+
+.playing-field {
+  width: 33.3%;
+  text-align: center;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 40px;
+  }
+}
+
+.result-text{
+  text-align: center;
+}
