@@ -1,15 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 export default function PlayingField({ totalCount }) {
-  const items = [];
-
-  for (let i = 0; i < totalCount; i++) {
-    items.push(
-      <p className="playing-field__item" key={i}>
-        &#128293;
-      </p>
-    );
-  }
+  const items = useMemo(() => Array(totalCount).fill(0), [totalCount]);
 
   return (
     <div className="playing-field">
@@ -17,7 +9,15 @@ export default function PlayingField({ totalCount }) {
         Количество спичек: {totalCount}
       </h2>
 
-      <div className="playing-field__list">{items}</div>
+      <div className="playing-field__list">
+        {items.map((_, index) => {
+          return (
+            <p className="playing-field__item" key={index}>
+              &#128293;
+            </p>
+          );
+        })}
+      </div>
     </div>
   );
 }

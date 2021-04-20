@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 export default function Form({ submitInput }) {
   const [maxTotalInput, setMaxTotalInput] = useState("");
@@ -16,13 +16,16 @@ export default function Form({ submitInput }) {
     }
   };
 
-  const handleSubmitInput = (e) => {
-    e.preventDefault();
+  const handleSubmitInput = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    if (maxTotalInput % 2 !== 0 && maxTakeInput > 0) {
-      submitInput(+maxTotalInput, +maxTakeInput);
-    }
-  };
+      if (maxTotalInput % 2 !== 0 && maxTakeInput > 0) {
+        submitInput(+maxTotalInput, +maxTakeInput);
+      }
+    },
+    [maxTotalInput, maxTakeInput, submitInput]
+  );
 
   return (
     <div className="footer__form">

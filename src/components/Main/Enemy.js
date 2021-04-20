@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
+import useEnemyTurn from "../../hooks/useEnemyTurn";
 
 export default function Enemy({
   enemyCount,
   changeTurn,
   playerTurn,
-  maxTake,
   totalCount,
+  maxTotal,
+  maxTake,
 }) {
+  const enemyTurn = useEnemyTurn(totalCount, enemyCount, maxTotal, maxTake);
+
   useEffect(() => {
     if (!playerTurn) {
-      const maxValue = totalCount < maxTake ? totalCount : maxTake;
-      const value = Math.floor(Math.random() * maxValue + 1);
-      changeTurn(value);
+      changeTurn(enemyTurn);
     }
-  }, [playerTurn]);
+  }, [playerTurn, changeTurn, enemyTurn]);
 
   return (
     <div className="player">

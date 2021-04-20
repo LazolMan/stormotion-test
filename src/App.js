@@ -1,57 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import { Main, Footer } from "./components/";
 
 function App() {
-  const [totalCount, setTotalCount] = useState(25);
   const [playerCount, setPlayerCount] = useState(0);
   const [enemyCount, setEnemyCount] = useState(0);
   const [playerTurn, setPlayerTurn] = useState(true);
-  const [playerWin, setPlayerWin] = useState(false);
-  const [endGame, setEndGame] = useState(false);
+  const [playerWin, setPlayerWin] = useState(null);
   const [playerFirst, setPlayerFirst] = useState(true);
   const [maxTotal, setMaxTotal] = useState(25);
   const [maxTake, setMaxTake] = useState(3);
 
+  const totalCount = useMemo(() => maxTotal - playerCount - enemyCount, [
+    maxTotal,
+    playerCount,
+    enemyCount,
+  ]);
+
+  const endGame = useMemo(() => totalCount > maxTotal - maxTake, [
+    totalCount,
+    maxTotal,
+    maxTake,
+  ]);
+
   useEffect(() => {
     if (totalCount <= 0) {
-      setTotalCount(maxTotal);
       setPlayerCount(0);
       setEnemyCount(0);
       setPlayerWin(playerCount % 2 === 0);
-      setEndGame(true);
     }
-  }, [totalCount]);
+  }, [totalCount, playerCount]);
 
   useEffect(() => {
     setPlayerTurn(playerFirst);
-  }, [endGame]);
+  }, [endGame, playerFirst]);
 
   useEffect(() => {
     if (totalCount === maxTotal) {
       setPlayerTurn(playerFirst);
     }
-  }, [playerFirst]);
+  }, [playerFirst, totalCount, maxTotal]);
 
-  const changeTurn = (value) => {
-    setTotalCount(totalCount - value);
+  const changeTurn = useCallback(
+    (value) => {
+      playerTurn
+        ? setPlayerCount(playerCount + value)
+        : setEnemyCount(enemyCount + value);
 
-    playerTurn
-      ? setPlayerCount(playerCount + value)
-      : setEnemyCount(enemyCount + value);
+      setPlayerTurn(!playerTurn);
+    },
+    [playerTurn, playerCount, enemyCount]
+  );
 
-    setPlayerTurn(!playerTurn);
-  };
-
-  const submitInput = (maxTotalInput, maxTakeInput) => {
-    if (endGame || totalCount === maxTotal) {
-      setMaxTotal(maxTotalInput);
-      setTotalCount(maxTotalInput);
-      setMaxTake(maxTakeInput);
-      setPlayerCount(0);
-      setEnemyCount(0);
-    }
-  };
+  const submitInput = useCallback(
+    (maxTotalInput, maxTakeInput) => {
+      if (endGame || totalCount === maxTotal) {
+        setMaxTotal(maxTotalInput);
+        setMaxTake(maxTakeInput);
+        setPlayerCount(0);
+        setEnemyCount(0);
+      }
+    },
+    [endGame, totalCount, maxTotal]
+  );
 
   return (
     <div className="wrapper">
@@ -60,8 +71,8 @@ function App() {
         enemyCount={enemyCount}
         changeTurn={changeTurn}
         totalCount={totalCount}
-        setEndGame={setEndGame}
         playerTurn={playerTurn}
+        maxTotal={maxTotal}
         maxTake={maxTake}
       />
 

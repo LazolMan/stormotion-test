@@ -1,40 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
+import Button from "./Button";
 
 export default function Player({
   playerCount,
   changeTurn,
   totalCount,
-  setEndGame,
   maxTake,
 }) {
-  const buttons = [];
-  const [maxValue, setMaxValue] = useState(3);
+  const maxValue = useMemo(
+    () => (totalCount < maxTake ? totalCount : maxTake),
+    [totalCount, maxTake]
+  );
 
-  useEffect(() => {
-    setMaxValue(totalCount < maxValue ? totalCount : maxTake);
-  }, [totalCount]);
-
-  for (let value = 1; value <= maxValue; value++) {
-    buttons.push(
-      <button
-        className="player__button button"
-        onClick={() => {
-          changeTurn(value);
-          setEndGame(false);
-        }}
-        key={value}
-      >
-        Взять {value}
-      </button>
-    );
-  }
+  const bttns = useMemo(() => Array(maxValue).fill(0), [maxValue]);
 
   return (
     <div className="player">
       <h2 className="player__title title">Игрок</h2>
       <p className="player__count">Количество спичек: {playerCount}</p>
 
-      <div className="player__button-box">{buttons}</div>
+      <div className="player__button-box">
+        {bttns.map((_, index) => (
+          <Button changeTurn={changeTurn} value={index + 1} key={index} />
+        ))}
+      </div>
     </div>
   );
 }

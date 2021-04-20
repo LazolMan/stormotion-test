@@ -10,8 +10,8 @@ function Main({
   enemyCount,
   changeTurn,
   totalCount,
-  setEndGame,
   playerTurn,
+  maxTotal,
   maxTake,
 }) {
   return (
@@ -19,9 +19,8 @@ function Main({
       <Player
         playerCount={playerCount}
         changeTurn={changeTurn}
-        setEndGame={setEndGame}
-        maxTake={maxTake}
         totalCount={totalCount}
+        maxTake={maxTake}
       />
 
       <PlayingField totalCount={totalCount} />
@@ -30,8 +29,9 @@ function Main({
         enemyCount={enemyCount}
         changeTurn={changeTurn}
         playerTurn={playerTurn}
-        maxTake={maxTake}
         totalCount={totalCount}
+        maxTotal={maxTotal}
+        maxTake={maxTake}
       />
     </div>
   );
@@ -42,8 +42,8 @@ Main.propTypes = {
   enemyCount: PropTypes.number.isRequired,
   changeTurn: PropTypes.func.isRequired,
   totalCount: PropTypes.number.isRequired,
-  setEndGame: PropTypes.func.isRequired,
   playerTurn: PropTypes.bool.isRequired,
+  maxTotal: PropTypes.number.isRequired,
   maxTake: PropTypes.number.isRequired,
 };
 

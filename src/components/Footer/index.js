@@ -16,7 +16,7 @@ function Footer({
     <footer className="footer">
       <PlayerFirst playerFirst={playerFirst} setPlayerFirst={setPlayerFirst} />
 
-      {endGame && <Result playerWin={playerWin} />}
+      {endGame && playerWin !== null &&  <Result playerWin={playerWin} />}
 
       <Form submitInput={submitInput} />
     </footer>
@@ -27,7 +27,7 @@ Footer.propTypes = {
   playerFirst: PropTypes.bool.isRequired,
   setPlayerFirst: PropTypes.func.isRequired,
   submitInput: PropTypes.func.isRequired,
-  playerWin: PropTypes.bool.isRequired,
+  playerWin: PropTypes.bool,
   endGame: PropTypes.bool.isRequired,
 };
 
